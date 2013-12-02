@@ -38,13 +38,6 @@ You are free to modify or add to these base styles as your project requires.
 
 ## Common helpers
 
-#### `.ir`
-
-Add the `.ir` class to any element you are applying image-replacement to. When
-replacing an element's content with an image, make sure to also set a specific
-`background-image: url(pathtoimage.png);`, `width`, and `height` so that your
-replacement image appears.
-
 #### `.hidden`
 
 Add the `.hidden` class to any elements that you want to hide from all
@@ -100,7 +93,7 @@ and (max-width: 480px)`.
 
 Take a look into the [Mobile
 Boilerplate](https://github.com/h5bp/mobile-boilerplate) for features that are
-useful when developing mobile wep apps.
+useful when developing mobile web apps.
 
 
 ## Print styles
