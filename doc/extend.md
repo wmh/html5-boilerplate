@@ -92,7 +92,7 @@ your site, for example) then you can queue up a domain name to be prefetched.
 
 You can use as many of these as you need, but it's best if they are all
 immediately after the [Meta
-Charset](https://developer.mozilla.org/en/HTML/Element/meta#attr-charset)
+Charset](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#attr-charset)
 element (which should go right at the top of the `head`), so the browser can
 act on them ASAP.
 
@@ -124,7 +124,7 @@ on blogs.msdn.com)
 
 ### Further reading about DNS prefetching
 
-* https://developer.mozilla.org/En/Controlling_DNS_prefetching
+* https://developer.mozilla.org/en-US/docs/Controlling_DNS_prefetching
 * http://dev.chromium.org/developers/design-documents/dns-prefetching
 * http://www.apple.com/safari/whats-new.html
 * http://blogs.msdn.com/b/ie/archive/2011/03/17/internet-explorer-9-network-performance-improvements.aspx
@@ -526,37 +526,69 @@ the Microformats wiki](http://microformats.org/wiki/rel-shortlink).
 <link rel="shortlink" href="h5bp.com">
 ```
 
+### Separate mobile URLs
+
+If you use separate URLs for desktop and mobile users, you should consider
+helping search engine algorithms better understand the configuration on your
+web site.
+
+This can be done by adding the following annotations in your HTML pages:
+
+* on the desktop page, add the `link rel="alternate"` tag pointing to the
+  corresponding mobile URL, e.g.:
+
+  `<link rel="alternate" media="only screen and (max-width: 640px)" href="http://m.example.com/page.html" >`
+
+* on the mobile page, add the `link rel="canonical"` tag pointing to the
+  corresponding desktop URL, e.g.:
+
+  `<link rel="canonical" href="http://www.example.com/page.html">`
+
+For more information please see:
+
+* https://developers.google.com/webmasters/smartphone-sites/details#separateurls
+* https://developers.google.com/webmasters/smartphone-sites/feature-phones
+
+
 ## Web Apps
 
 There are a couple of meta tags that provide information about a web app when
-added to the Home Screen on iOS.
+added to the Home Screen on iOS:
 
-Adding `apple-mobile-web-app-capable` will make your web app chrome-less and
+* Adding `apple-mobile-web-app-capable` will make your web app chrome-less and
 provide the default iOS app view. You can control the color scheme of the
 default view by adding `apple-mobile-web-app-status-bar-style`.
 
-```html
+  ```html
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 ```
 
-You can use `apple-mobile-web-app-title` to add a specific sites name for the
+* You can use `apple-mobile-web-app-title` to add a specific sites name for the
 Home Screen icon. This works since iOS 6.
 
-```html
+  ```html
 <meta name="apple-mobile-web-app-title" content="">
+```
+
+On iOS 7.1, you can minimize the top and bottom bars on the iPhone as the page
+loads, simply by adding the `minimal-ui` property to the `viewport` meta tag.
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
 ```
 
 For further information please read the [official
 documentation](http://developer.apple.com/library/safari/#documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html)
 on Apple's site.
 
+
 ### Apple Touch Icons
 
 Touch Icons can be seen as the favicons of mobile devices and tablets.
 
 If your site or icons are in a sub-directory, you will need to reference the
-icons using `link` elements placed in the HTML `head` of your document.
+icons using `link` elements placed in the HTML `head` of your document, e.g.:
 
 ```html
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
@@ -564,18 +596,30 @@ icons using `link` elements placed in the HTML `head` of your document.
 
 The main sizes of the icons on iOS are:
 
-* iPad, high-resolution display, iOS 7: 152x152
-* iPad, high-resolution display, iOS ≤ 6: 144x144
-* iPhone, high-resolution display, iOS 7: 120x120
-* iPhone, high-resolution display, iOS ≤ 6: 114x114
-* iPad, non-Retina, iOS ≤ 6: 72x72
+* `57×57px` – non-Retina iPhone and iPod Touch
+* `72×72px` – iPad mini and the first- and second-generation iPad on iOS ≤ 6
+* `76×76px` – iPad mini and the first- and second-generation iPad on iOS ≥ 7
+* `114×114px` – iPhone 4+ (with Retina Display) on iOS ≤ 6
+* `120×120px` – iPhone 4+ (with Retina Display) on iOS ≥ 7
+* `144×144px` – iPad 3+ (with Retina Display)
+* `152×152px` – iPad 3+ (with Retina Display)
 
 For non-Retina iPhone, iPod Touch, and Android 2.1+ devices you can use the
-example from above or replace the `apple-touch-icon-precomposed.png` within this
-project's root folder.
+example from above or replace the `apple-touch-icon-precomposed.png` within
+this project's root folder.
 
-Please refer to Mathias' [article on Touch
-Icons](http://mathiasbynens.be/notes/touch-icons) for a comprehensive overview.
+In most cases, one `152×152px` touch icon named `apple-touch-icon-precomposed.png`
+is enough. If you use art-direction and want to have different content for each
+size, you can add more touch icons as written above.
+
+As of iOS 7, no special effects are applied to the touch icons. So, if you are
+only targeting iOS 7 and up, you don’t have to use `precomposed` anymore (but
+we [strongly recommend you
+do](http://mathiasbynens.be/notes/touch-icons#effects)!).
+
+For a more comprehensive overview, please refer to Mathias' [article on Touch
+Icons](http://mathiasbynens.be/notes/touch-icons).
+
 
 ### Apple Touch Startup Image
 
@@ -593,6 +637,23 @@ However, it is possible to detect which start-up image to use with JavaScript.
 The Mobile Boilerplate provides a useful function for this. Please see
 [helpers.js](https://github.com/h5bp/mobile-boilerplate/blob/v4.1.0/js/helper.js#L336-L383)
 for the implementation.
+
+
+### Chrome Mobile web apps
+
+Chrome Mobile has a specific meta tag for making apps [installable to the
+homescreen](https://developers.google.com/chrome/mobile/docs/installtohomescreen)
+which tries to be a more generic replacement to Apple's proprietary meta tag:
+
+```html
+<meta name="mobile-web-app-capable" content="yes">
+```
+
+Same applies to the touch icons:
+
+```html
+<link rel="icon" sizes="196x196" href="highres-icon.png">
+```
 
 
 *Many thanks to [Brian Blakely](https://github.com/brianblakely) for
